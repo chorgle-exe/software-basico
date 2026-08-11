@@ -1,6 +1,6 @@
 # Laboratório 1 — Introdução a Compilação e Tipos de Dados
 
-# Aquecimento — Compilação em Linux/GCC
+Aquecimento — Compilação em Linux/GCC
 
 ## Diretório corrente
 `pwd` mostra o diretório atual e `ls` lista seu conteúdo. Criei a pasta de trabalho com
