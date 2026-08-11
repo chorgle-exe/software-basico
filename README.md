@@ -1,83 +1,39 @@
 # Software Básico — Laboratório INF1018
 
-Este repositório contém exercícios de compilação e organização de programas em C usando GNU GCC no Linux.
+esse repositório contém exercícios de compilação e organização de programas em C usando GNU GCC no Linux.
 
 ## Objetivo
 
-Aprender a usar o terminal para compilar e executar programas em C, criar arquivos de código fonte, separar código em múltiplos arquivos e entender warnings do compilador.
+aprender a usar o terminal para compilar e executar programas em C, criar arquivos de código fonte, separar código em múltiplos arquivos e entender warnings do compilador.
 
-## Estrutura dos exercícios
+- mkdir inf1018: cria (make directory) uma nova pasta chamada inf1018 dentro do diretório corrente.
 
-### ex1.c
-- Programa único com função `foo` e `main` no mesmo arquivo.
-- Compilação:
-  ```bash
-  gcc -Wall -o ex1 ex1.c
-  ```
-- Execução:
-  ```bash
-  ./ex1 4.0
-  ```
-- Teste também sem argumentos:
-  ```bash
-  ./ex1
-  ```
-- O exercício mostra como `argc` e `argv` funcionam.
+- cd inf1018 (change directory): move você "para dentro" dessa pasta, tornando-a o novo diretório corrente.
 
-### ex2.c e labaux.c
-- Aqui o código foi dividido em dois arquivos.
-- `labaux.c` contém a definição de `foo`.
-- `ex2.c` contém `main` e apenas o protótipo de `foo`:
-  ```c
-  float foo(float pf);
-  ```
-- Compilação passo a passo:
-  ```bash
-  gcc -Wall -c labaux.c
-  gcc -Wall -c ex2.c
-  gcc -o ex2 labaux.o ex2.o
-  ```
-- Compilação em uma etapa:
-  ```bash
-  gcc -Wall -o ex2 labaux.c ex2.c
-  ```
-- Execução:
-  ```bash
-  ./ex2 4.0
-  ```
+- pwd: confirma que o diretório corrente mudou, agora mostrando o caminho terminado em /inf1018.
 
-### ex3.c
-- Este arquivo é igual a `ex2.c`, mas sem o cabeçalho de `foo`.
-- A compilação é:
-  ```bash
-  gcc -Wall -o ex3 labaux.c ex3.c
-  ```
-- O compilador pode emitir warnings, porque a declaração de `foo` não está visível em `ex3.c`.
-- O programa ainda pode ser gerado e rodar, mas o aviso indica que o código pode estar incorreto ou ser indefinido.
+- gcc: invoca o compilador GNU C.
+  
+-Wall (warnings all): pede ao compilador para exibir todos os avisos relevantes sobre possíveis problemas no código (mesmo que não impeçam a compilação).
 
-### dump.c e ex4.c
-- `dump.c` define uma função que imprime os bytes de um bloco de memória.
-- `ex4.c` chama `dump` para mostrar como valores do tipo `char`, `int` e arrays de char são armazenados na memória.
-- Compile e execute usando:
-  ```bash
-  gcc -Wall -o ex4 dump.c ex4.c
-  ./ex4
-  ```
-- Este exercício ajuda a entender:
-  - ponteiros
-  - argumentos de função
-  - `sizeof`
-  - representação de dados em bytes
+-o ex1: define o nome do arquivo de saída (o executável) como ex1. Sem essa opção, o gcc geraria um arquivo padrão chamado a.out.
 
-## Boas práticas usadas aqui
+ex1.c: o arquivo-fonte a ser compilado.
 
-- Código fonte em arquivos `.c`
-- Separar funções em arquivos diferentes quando faz sentido
-- Usar `-Wall` para receber warnings do compilador
-- Usar `.gitignore` para ignorar arquivos gerados por build (`*.o`, executáveis) e configurações de editor (`.vscode/`)
+./ex1 4.0: executa o programa ex1, passando "4.0" como argv[1]. O ./ indica explicitamente "execute o arquivo ex1 que está no diretório corrente".
 
-## Observações
+ao digitar apenas ex1 (sem ./), o sistema procura um programa chamado ex1 nos diretórios listados na variável de ambiente PATH
 
-- O comando `./ex1` funciona quando o executável está no diretório atual.
-- Se o terminal não encontrar `ex1`, verifique se você está no diretório correto e se o arquivo existe.
-- Warnings não são erros, mas devem ser lidos com atenção.
+a função dump.c percorre n bytes a partir do endereço p e imprime o valor numérico de cada byte — ou seja, mostra a representação "crua", em memória, de qualquer variável, independentemente do tipo que ela realmente tem.
+
+
+
+O que se pode concluir sobre c1, c2, i e v na memória?
+
+c1 ocupa 1 byte, e esse byte contém diretamente o valor numérico 1.
+
+c2 também ocupa 1 byte, mas o valor armazenado é 49, o código ASCII do caractere '1' — evidenciando que, para o computador, caracteres são apenas números interpretados de forma especial ao serem exibidos como texto.
+
+i ocupa 4 bytes (em máquinas típicas de 32/64 bits), mesmo armazenando o "mesmo valor lógico" (1) que c1. Isso mostra que tipos diferentes (char vs int) reservam quantidades diferentes de memória, mesmo para representar valores pequenos — o int usa mais bytes para poder representar uma faixa muito maior de números.
+
+v ocupa 2 bytes: o caractere '1' (49) seguido do byte 0 ('\0'), o terminador que marca o fim da string. Isso confirma que toda string em C precisa desse byte extra além dos caracteres "visíveis", e é esse terminador que permite que funções como printf("%s", ...) saibam onde a string termina.
