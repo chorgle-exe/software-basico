@@ -1,0 +1,10 @@
+# Ignore compiled object files
+*.o
+
+# Ignore generated executables
+ex2
+ex3
+ex4
+
+# Ignore editor settings
+.vscode/
